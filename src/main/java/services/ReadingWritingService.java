@@ -88,6 +88,7 @@ public class ReadingWritingService {
 
     private void createWritingFiles(Path[] writingPaths) throws IOException {
         for (Path writingPath : writingPaths) {
+            Files.createDirectories(writingPath.getParent());
             if (Files.notExists(writingPath)) {
                 Files.createFile(writingPath);
             }
