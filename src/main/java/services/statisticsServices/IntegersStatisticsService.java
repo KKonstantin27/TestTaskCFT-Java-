@@ -1,5 +1,8 @@
 package services.statisticsServices;
 
+import lombok.Getter;
+
+@Getter
 public class IntegersStatisticsService extends BaseStatisticsService {
     private long min = Long.MAX_VALUE;
     private long max = Long.MIN_VALUE;

@@ -1,7 +1,9 @@
 package services.statisticsServices;
 
+import lombok.Getter;
 import utils.SizeUnitUtil;
 
+@Getter
 public class StringsStatisticsService extends BaseStatisticsService {
     private int shortestLineLength = Integer.MAX_VALUE;
     private long shortestLineSize;
@@ -30,8 +32,6 @@ public class StringsStatisticsService extends BaseStatisticsService {
             System.out.println("Размер самой короткой строки: " + sizeUnitUtil.convertToBiggerUnits(shortestLineSize));
             System.out.println("Размер самой длинной строки: " + sizeUnitUtil.convertToBiggerUnits(longestLineSize));
             System.out.println("--------------------------------------------------");
-            String s = new String(new char[1029129]).replace('\0', 'A');
-            System.out.println(sizeUnitUtil.convertToBiggerUnits(s.getBytes().length));
         }
     }
 }
