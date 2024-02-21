@@ -54,7 +54,6 @@ public class App {
                         i++;
                         break;
                     case "-p":
-                        System.out.println(args[nextIndex]);
                         writingFileNames = Arrays.stream(writingFileNames)
                                 .map(x -> args[nextIndex] + x)
                                 .toArray(String[]::new);
