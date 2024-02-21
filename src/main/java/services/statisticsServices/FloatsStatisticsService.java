@@ -2,8 +2,6 @@ package services.statisticsServices;
 
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @Getter
 public class FloatsStatisticsService extends BaseStatisticsService {
     private double min = Double.MAX_VALUE;

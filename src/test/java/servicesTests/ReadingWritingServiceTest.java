@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReadingWritingServiceTest {
-    private static ReadingWritingService readingWritingService = new ReadingWritingService();
+    private static final ReadingWritingService READING_WRITING_SERVICE = new ReadingWritingService();
     private static Path[] testWritingPaths;
     private static List<Path> testReadingPaths;
 
@@ -69,9 +69,8 @@ public class ReadingWritingServiceTest {
     @Test
     @Order(1)
     public void testReadWriteToFilesWithRewriteBehaviorAndWithEmptyOutputFiles() throws IOException {
-
         List<Path> readingPaths = testReadingPaths.subList(2, 3);
-        readingWritingService.readWriteToFiles(readingPaths, testWritingPaths, false,
+        READING_WRITING_SERVICE.readWriteToFiles(readingPaths, testWritingPaths, false,
                 false, false);
 
         String expectedFloatsOutput = """
@@ -100,9 +99,8 @@ public class ReadingWritingServiceTest {
     @Test
     @Order(2)
     public void testReadWriteToFilesWithAddingBehaviorAndWithoutEmptyOutputFiles() throws IOException {
-
         List<Path> readingPaths = testReadingPaths.subList(0, 2);
-        readingWritingService.readWriteToFiles(readingPaths, testWritingPaths, true,
+        READING_WRITING_SERVICE.readWriteToFiles(readingPaths, testWritingPaths, true,
                 false, false);
 
         String expectedFloatsOutput = """

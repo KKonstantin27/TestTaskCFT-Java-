@@ -1,7 +1,7 @@
 package utils;
 
 public class LineTypeUtil {
-    public boolean isFloats(String line) {
+    public boolean isFloat(String line) {
         try {
             if (line.contains(".")) {
                 Double.parseDouble(line);

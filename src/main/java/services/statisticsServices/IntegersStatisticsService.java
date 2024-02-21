@@ -19,6 +19,7 @@ public class IntegersStatisticsService extends BaseStatisticsService {
             avg = (double) sum / numberOfLines;
         }
     }
+
     public void printStatistics(boolean isFullStatistics) {
         df.setMaximumFractionDigits(2);
         System.out.println("Количество целых чисел: " + df.format(numberOfLines));

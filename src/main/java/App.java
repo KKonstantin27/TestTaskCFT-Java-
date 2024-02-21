@@ -1,4 +1,3 @@
-import exceptions.InvalidArgumentsException;
 import lombok.Getter;
 import lombok.Setter;
 import services.ReadingWritingService;
@@ -14,30 +13,29 @@ import java.util.List;
 public class App {
     @Setter
     private static ReadingWritingService readingWritingService = new ReadingWritingService();
+    @Setter
+    private static ExceptionsHandler exceptionsHandler = new ExceptionsHandler();
+    @Getter
+    private static List<Path> readingPaths;
     @Getter
     private static String[] writingFileNames;
     @Getter
     private static Path[] writingPaths;
-    @Getter
-    private static List<Path> readingPaths;
     @Getter
     private static boolean isRewritingBehavior;
     @Getter
     private static boolean isThereStatistic;
     @Getter
     private static boolean isFullStatistic;
-    @Getter
-    @Setter
-    private static ExceptionHandler exceptionHandler = new ExceptionHandler();
 
     public static void main(String[] args) {
         try {
             Path pathToJar = Paths.get(App.class.getProtectionDomain().getCodeSource().getLocation().toURI());
             Path jarParentDir = pathToJar.getParent();
 
+            readingPaths = new ArrayList<>();
             writingFileNames = new String[]{"floats.txt", "integers.txt", "strings.txt"};
             writingPaths = new Path[3];
-            readingPaths = new ArrayList<>();
             isRewritingBehavior = true;
             isThereStatistic = false;
             isFullStatistic = false;
@@ -45,7 +43,7 @@ public class App {
             Arrays.fill(writingPaths, jarParentDir);
 
             if (args.length == 0) {
-                throw new InvalidArgumentsException();
+                throw new IllegalArgumentException();
             }
 
             for (int i = 0; i < args.length; i++) {
@@ -86,7 +84,7 @@ public class App {
             }
             readingWritingService.readWriteToFiles(readingPaths, writingPaths, isRewritingBehavior, isThereStatistic, isFullStatistic);
         } catch (URISyntaxException | IOException | IllegalArgumentException e) {
-            exceptionHandler.handleURISyntaxIOInvalidPathExceptions();
+            exceptionsHandler.handleURISyntaxIOInvalidPathExceptions();
         }
     }
 }

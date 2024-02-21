@@ -112,11 +112,13 @@ public class ArgumentsHandlingInTheAppTest {
     @Test
     public void inputFileDoesNotExistShouldCallHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
+        App.setExceptionsHandler(exceptionsHandlerMock);
         Random random = new Random();
+
         String[] args = {"non-existent-file.txt" + random.nextInt(100000),
                 "non-existent-file.txt" + random.nextInt(100000)};
-        App.setExceptionsHandler(exceptionsHandlerMock);
         App.main(args);
+
         verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
     }
 
@@ -124,8 +126,8 @@ public class ArgumentsHandlingInTheAppTest {
     @Test
     public void invalidPathShouldCallHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
-        String[] args = {"-o", "/example/path\"", "in1.txt"};
         App.setExceptionsHandler(exceptionsHandlerMock);
+        String[] args = {"-o", "/example/path\"", "in1.txt"};
         App.main(args);
         verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
     }
@@ -133,8 +135,8 @@ public class ArgumentsHandlingInTheAppTest {
     @Test
     public void invalidArgumentsShouldCallHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
-        String[] args = {"-x", "in1", "in1.txt"};
         App.setExceptionsHandler(exceptionsHandlerMock);
+        String[] args = {"-x", "in1", "in1.txt"};
         App.main(args);
         verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
 
@@ -143,8 +145,8 @@ public class ArgumentsHandlingInTheAppTest {
     @Test
     public void emptyArgumentsShouldCallHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
-        String[] args = {};
         App.setExceptionsHandler(exceptionsHandlerMock);
+        String[] args = {};
         App.main(args);
         verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
     }

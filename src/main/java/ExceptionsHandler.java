@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class ExceptionsHandler {
     private final Scanner console = new Scanner(System.in);
+
     public void handleURISyntaxIOInvalidPathExceptions() {
         System.out.println(
                 """
@@ -22,7 +23,6 @@ public class ExceptionsHandler {
                         ------------------------------\s
                         Пожалуйста, повторите ввод аргументов (одной строкой, разделяя аргументы пробелами, как в примере):\s
                         """);
-
         String userInput = console.nextLine();
 
         try {
@@ -30,10 +30,10 @@ public class ExceptionsHandler {
         } catch (StackOverflowError e) {
             System.err.println(
                     """
-                       Произошла ошибка переполнения стека (StackOverflowError). Ошибка возникла из-за множественного вызова методов
-                       в связи с многократным неверным вводом аргументов пользователем.\s
-                       Работа программы остановлена.\s
-                            """);
+                            Произошла ошибка переполнения стека (StackOverflowError). Ошибка возникла из-за множественного вызова методов
+                            в связи с многократным неверным вводом аргументов пользователем.\s
+                            Работа программы остановлена.\s
+                                 """);
         }
     }
 }
