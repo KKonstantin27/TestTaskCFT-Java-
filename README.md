@@ -49,7 +49,7 @@
 <p>java -jar TestTaskCFT-1.0.jar -f -a -o example/path -p sample- in1.txt in2.txt</p>
 
 <h3>Примеры работы вывода статистики:</h3>
-<h4>Краткая статистика</h4>
+<h4>Краткая статистика:</h4>
 <img src="prev_img/statistics_output.png"/>
-<h4>Полная статистика</h4>
+<h4>Полная статистика:</h4>
 <img src="prev_img/full_statistics_output.png"/>
