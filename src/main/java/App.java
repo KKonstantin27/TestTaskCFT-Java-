@@ -50,11 +50,11 @@ public class App {
                 int nextIndex = i + 1;
                 switch (args[i]) {
                     case "-o":
-                        String writingPath = args[nextIndex].charAt(0) == '/' ? args[nextIndex].substring(1) : args[nextIndex];
-                        Arrays.fill(writingPaths, jarParentDir.resolve(Paths.get(writingPath)));
+                        Arrays.fill(writingPaths, jarParentDir.resolve(Paths.get(args[nextIndex])));
                         i++;
                         break;
                     case "-p":
+                        System.out.println(args[nextIndex]);
                         writingFileNames = Arrays.stream(writingFileNames)
                                 .map(x -> args[nextIndex] + x)
                                 .toArray(String[]::new);

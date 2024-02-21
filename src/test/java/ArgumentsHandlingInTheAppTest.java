@@ -53,10 +53,10 @@ public class ArgumentsHandlingInTheAppTest {
     @Test
     public void test_o_a_arguments() {
         App.setReadingWritingService(readingWritingServiceMock);
-        String[] args = {"-a", "-o", "/example/path", "in1.txt"};
+        String[] args = {"-a", "-o", "example/path", "in1.txt"};
         App.main(args);
 
-        Arrays.fill(expectedWritingPaths, jarParentDir.resolve(args[2].substring(1)));
+        Arrays.fill(expectedWritingPaths, jarParentDir.resolve(args[2]));
         buildExpectedWritingPaths();
 
         assertArrayEquals(expectedWritingFileNames, App.getWritingFileNames());
@@ -90,10 +90,10 @@ public class ArgumentsHandlingInTheAppTest {
     @Test
     public void test_f_o_p_a_arguments() {
         App.setReadingWritingService(readingWritingServiceMock);
-        String[] args = {"-a", "-f", "-o", "/example/path", "-p", "sample-", "in1.txt"};
+        String[] args = {"-a", "-f", "-o", "example/path", "-p", "sample-", "in1.txt"};
         App.main(args);
 
-        Arrays.fill(expectedWritingPaths, jarParentDir.resolve(args[3].substring(1)));
+        Arrays.fill(expectedWritingPaths, jarParentDir.resolve(args[3]));
 
         expectedWritingFileNames = Arrays.stream(expectedWritingFileNames)
                 .map(x -> args[5] + x)
@@ -127,7 +127,7 @@ public class ArgumentsHandlingInTheAppTest {
     public void invalidPathShouldCallHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
         App.setExceptionsHandler(exceptionsHandlerMock);
-        String[] args = {"-o", "/example/path\"", "in1.txt"};
+        String[] args = {"-o", "example/path\"", "in1.txt"};
         App.main(args);
         verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
     }

@@ -47,12 +47,11 @@ public class ReadingWritingService {
                     }
                 }
             }
+            if (isThereStatistics) {
+                printStatistics(isFullStatistics);
+            }
         } finally {
             releaseOutputStreams();
-        }
-
-        if (isThereStatistics) {
-            printStatistics(isFullStatistics);
         }
     }
 
@@ -64,19 +63,23 @@ public class ReadingWritingService {
     }
 
     private void releaseOutputStreams() throws IOException {
-        if (areThereFloatsInTheFile) {
-            areThereFloatsInTheFile = false;
-            bufferedFloatsWriter.close();
-        }
+        try {
+            if (areThereFloatsInTheFile) {
+                areThereFloatsInTheFile = false;
+                bufferedFloatsWriter.close();
+            }
 
-        if (areThereIntegersInTheFile) {
-            areThereIntegersInTheFile = false;
-            bufferedIntegersWriter.close();
-        }
+            if (areThereIntegersInTheFile) {
+                areThereIntegersInTheFile = false;
+                bufferedIntegersWriter.close();
+            }
 
-        if (areThereStringsInTheFile) {
-            areThereStringsInTheFile = false;
-            bufferedStringsWriter.close();
+            if (areThereStringsInTheFile) {
+                areThereStringsInTheFile = false;
+                bufferedStringsWriter.close();
+            }
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException();
         }
     }
 
