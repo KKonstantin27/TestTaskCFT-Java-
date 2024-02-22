@@ -1,11 +1,11 @@
-package services.statisticsServices;
+package entities;
 
 import lombok.Getter;
 
 import java.text.DecimalFormat;
+@Getter
+public abstract class BaseStatistics {
 
-public abstract class BaseStatisticsService {
-    @Getter
     protected int numberOfLines = 0;
 
     protected DecimalFormat df = new DecimalFormat();

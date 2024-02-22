@@ -1,8 +1,8 @@
 package services;
 
-import services.statisticsServices.FloatsStatisticsService;
-import services.statisticsServices.IntegersStatisticsService;
-import services.statisticsServices.StringsStatisticsService;
+import entities.FloatsStatistics;
+import entities.IntegersStatistics;
+import entities.StringsStatistics;
 import utils.LineTypeUtil;
 
 import java.io.BufferedReader;
@@ -20,9 +20,9 @@ public class ReadingWritingService {
     private boolean areThereFloatsInTheFile = false;
     private boolean areThereIntegersInTheFile = false;
     private boolean areThereStringsInTheFile = false;
-    private final FloatsStatisticsService floatsStatisticsService = new FloatsStatisticsService();
-    private final IntegersStatisticsService integersStatisticsService = new IntegersStatisticsService();
-    private final StringsStatisticsService stringsStatisticsService = new StringsStatisticsService();
+    private final FloatsStatistics floatsStatistics = new FloatsStatistics();
+    private final IntegersStatistics integersStatistics = new IntegersStatistics();
+    private final StringsStatistics stringsStatistics = new StringsStatistics();
 
     public void readWriteToFiles(List<Path> readingPaths, Path[] writingPaths, boolean isRewritingBehavior,
                                  boolean isThereStatistics, boolean isFullStatistics) throws IOException {
@@ -85,15 +85,15 @@ public class ReadingWritingService {
 
     private void printStatistics(boolean isFullStatistics) {
         if (areThereFloatsInTheFile) {
-            floatsStatisticsService.printStatistics(isFullStatistics);
+            floatsStatistics.printStatistics(isFullStatistics);
         }
 
         if (areThereIntegersInTheFile) {
-            integersStatisticsService.printStatistics(isFullStatistics);
+            integersStatistics.printStatistics(isFullStatistics);
         }
 
         if (areThereStringsInTheFile) {
-            stringsStatisticsService.printStatistics(isFullStatistics);
+            stringsStatistics.printStatistics(isFullStatistics);
         }
     }
 
@@ -109,7 +109,7 @@ public class ReadingWritingService {
         bufferedFloatsWriter.write(line + "\n");
 
         if (isThereStatistics) {
-            floatsStatisticsService.calculateStatistics(line, isFullStatistics);
+            floatsStatistics.calculateStatistics(line, isFullStatistics);
         }
     }
 
@@ -125,7 +125,7 @@ public class ReadingWritingService {
         bufferedIntegersWriter.write(line + "\n");
 
         if (isThereStatistics) {
-            integersStatisticsService.calculateStatistics(line, isFullStatistics);
+            integersStatistics.calculateStatistics(line, isFullStatistics);
         }
     }
 
@@ -141,7 +141,7 @@ public class ReadingWritingService {
         bufferedStringsWriter.write(line + "\n");
 
         if (isThereStatistics) {
-            stringsStatisticsService.calculateStatistics(line, isFullStatistics);
+            stringsStatistics.calculateStatistics(line, isFullStatistics);
         }
     }
 }

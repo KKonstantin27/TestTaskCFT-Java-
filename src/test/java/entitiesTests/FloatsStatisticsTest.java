@@ -1,10 +1,10 @@
-package servicesTests.statisticsServicesTests;
+package entitiesTests;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import services.statisticsServices.FloatsStatisticsService;
+import entities.FloatsStatistics;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,35 +12,35 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FloatsStatisticsServiceTest {
-    private static final FloatsStatisticsService FLOATS_STATISTICS_SERVICE = new FloatsStatisticsService();
-    private static final FloatsStatisticsService FLOATS_FULL_STATISTICS_SERVICE = new FloatsStatisticsService();
+public class FloatsStatisticsTest {
+    private static final FloatsStatistics FLOATS_STATISTICS = new FloatsStatistics();
+    private static final FloatsStatistics FLOATS_FULL_STATISTICS = new FloatsStatistics();
 
     @BeforeAll
     public static void sendTestDataToCalculateStatistics() {
         String[] testData = {"0.0", "1.528535047E-25", "-12.3456789", "-1234.56789", "-1.23456789"};
-        Arrays.stream(testData).forEach(x -> FLOATS_STATISTICS_SERVICE.calculateStatistics(x, false));
-        Arrays.stream(testData).forEach(x -> FLOATS_FULL_STATISTICS_SERVICE.calculateStatistics(x, true));
+        Arrays.stream(testData).forEach(x -> FLOATS_STATISTICS.calculateStatistics(x, false));
+        Arrays.stream(testData).forEach(x -> FLOATS_FULL_STATISTICS.calculateStatistics(x, true));
     }
 
     @Test
     @Order(1)
     public void calculateStatisticsShouldCalculateOnlyNumberOfLinesField() {
-        assertEquals(5, FLOATS_STATISTICS_SERVICE.getNumberOfLines());
-        assertEquals(Double.MAX_VALUE, FLOATS_STATISTICS_SERVICE.getMin());
-        assertEquals(Double.MIN_VALUE, FLOATS_STATISTICS_SERVICE.getMax());
-        assertEquals(0.0, FLOATS_STATISTICS_SERVICE.getAvg());
-        assertEquals(0.0, FLOATS_STATISTICS_SERVICE.getSum());
+        assertEquals(5, FLOATS_STATISTICS.getNumberOfLines());
+        assertEquals(Double.MAX_VALUE, FLOATS_STATISTICS.getMin());
+        assertEquals(Double.MIN_VALUE, FLOATS_STATISTICS.getMax());
+        assertEquals(0.0, FLOATS_STATISTICS.getAvg());
+        assertEquals(0.0, FLOATS_STATISTICS.getSum());
     }
 
     @Test
     @Order(2)
     public void calculateStatisticsShouldCalculateAllFields() {
-        assertEquals(5, FLOATS_FULL_STATISTICS_SERVICE.getNumberOfLines());
-        assertEquals(-1234.56789, FLOATS_FULL_STATISTICS_SERVICE.getMin());
-        assertEquals(1.528535047E-25, FLOATS_FULL_STATISTICS_SERVICE.getMax());
-        assertEquals(-249.62962735800002, FLOATS_FULL_STATISTICS_SERVICE.getAvg());
-        assertEquals(-1248.14813679, FLOATS_FULL_STATISTICS_SERVICE.getSum());
+        assertEquals(5, FLOATS_FULL_STATISTICS.getNumberOfLines());
+        assertEquals(-1234.56789, FLOATS_FULL_STATISTICS.getMin());
+        assertEquals(1.528535047E-25, FLOATS_FULL_STATISTICS.getMax());
+        assertEquals(-249.62962735800002, FLOATS_FULL_STATISTICS.getAvg());
+        assertEquals(-1248.14813679, FLOATS_FULL_STATISTICS.getSum());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class FloatsStatisticsServiceTest {
         ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(consoleOutput));
         String expectedOutput = "Количество вещественных чисел: 5\r\n";
-        FLOATS_STATISTICS_SERVICE.printStatistics(false);
+        FLOATS_STATISTICS.printStatistics(false);
         assertEquals(expectedOutput, consoleOutput.toString());
     }
 
@@ -66,7 +66,7 @@ public class FloatsStatisticsServiceTest {
                 Сумма вещественных чисел: -1248,14813679\r
                 --------------------------------------------------\r
                 """;
-        FLOATS_FULL_STATISTICS_SERVICE.printStatistics(true);
+        FLOATS_FULL_STATISTICS.printStatistics(true);
         assertEquals(expectedOutput, consoleOutput.toString().replaceAll("\u00a0", ""));
     }
 

@@ -1,10 +1,10 @@
-package services.statisticsServices;
+package entities;
 
 import lombok.Getter;
 import utils.SizeUnitUtil;
 
 @Getter
-public class StringsStatisticsService extends BaseStatisticsService {
+public class StringsStatistics extends BaseStatistics {
     private int shortestLineLength = Integer.MAX_VALUE;
     private long shortestLineSize;
     private int longestLineLength = Integer.MIN_VALUE;

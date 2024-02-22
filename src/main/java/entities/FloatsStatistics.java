@@ -1,9 +1,9 @@
-package services.statisticsServices;
+package entities;
 
 import lombok.Getter;
 
 @Getter
-public class FloatsStatisticsService extends BaseStatisticsService {
+public class FloatsStatistics extends BaseStatistics {
     private double min = Double.MAX_VALUE;
     private double max = Double.MIN_VALUE;
     private double avg;
