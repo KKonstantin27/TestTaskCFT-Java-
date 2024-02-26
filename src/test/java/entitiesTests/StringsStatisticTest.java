@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import entities.StringsStatistics;
+import entities.StringsStatistic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringsStatisticsTest {
-    private static final StringsStatistics STRINGS_STATISTICS = new StringsStatistics();
-    private static final StringsStatistics STRINGS_FULL_STATISTICS = new StringsStatistics();
+    private static final StringsStatistic STRINGS_STATISTICS = new StringsStatistic();
+    private static final StringsStatistic STRINGS_FULL_STATISTICS = new StringsStatistic();
 
     @BeforeAll
     public static void sendTestDataToCalculateStatistics() {

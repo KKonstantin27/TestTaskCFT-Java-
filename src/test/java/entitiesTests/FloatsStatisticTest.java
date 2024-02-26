@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import entities.FloatsStatistics;
+import entities.FloatsStatistic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FloatsStatisticsTest {
-    private static final FloatsStatistics FLOATS_STATISTICS = new FloatsStatistics();
-    private static final FloatsStatistics FLOATS_FULL_STATISTICS = new FloatsStatistics();
+    private static final FloatsStatistic FLOATS_STATISTICS = new FloatsStatistic();
+    private static final FloatsStatistic FLOATS_FULL_STATISTICS = new FloatsStatistic();
 
     @BeforeAll
     public static void sendTestDataToCalculateStatistics() {

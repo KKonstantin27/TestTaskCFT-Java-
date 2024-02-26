@@ -3,7 +3,7 @@ package entities;
 import lombok.Getter;
 
 @Getter
-public class FloatsStatistics extends BaseStatistics {
+public class FloatsStatistic extends BaseStatistic {
     private double min = Double.MAX_VALUE;
     private double max = Double.MIN_VALUE;
     private double avg;
