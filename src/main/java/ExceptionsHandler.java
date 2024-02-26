@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class ExceptionsHandler {
     private final Scanner console = new Scanner(System.in);
 
-    public void handleURISyntaxIOInvalidPathExceptions() {
+    public void handleIOInvalidPathExceptions() {
         System.out.println(
                 """
                         Введены неверные аргументы для работы программы.\s
@@ -17,7 +17,7 @@ public class ExceptionsHandler {
                         выходные файлы с такими именами существуют), а новые строки добавляются в конец файлов)\s
                         -s (необязательный аргумент, при вводе данного аргумента выводит краткую статистику в консоль)\s
                         -f (необязательный аргумент, при вводе данного аргумента выводит подробную статистику в консоль)\s
-                        
+                                                
                         Обязательные аргументы:\s
                         example1.txt (обязательный аргумент, указывающий на имя входного файла в формате txt.
                         Файл должен находиться в папке с jar файлом. Можно указать несколько входных файлов через пробел)\s
