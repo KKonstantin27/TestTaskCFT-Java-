@@ -1,5 +1,6 @@
 package servicesTests;
 
+import enums.TypeOfLine;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReadingWritingServiceTest {
-    private static final ReadingWritingService READING_WRITING_SERVICE = new ReadingWritingService();
+    private static ReadingWritingService readingWritingService;
     private static Path[] testWritingPaths;
     private static List<Path> testReadingPaths;
 
@@ -38,27 +39,19 @@ public class ReadingWritingServiceTest {
                 {"1234567\n", "123.4567\n", "-1234\n", "-12.34\n"}
         };
 
-        for (Path testReadingPath : testReadingPaths) {
-            Files.createFile(testReadingPath);
-        }
-
-        try (BufferedWriter bufferedWriter1 = new BufferedWriter(new FileWriter(testReadingPaths.get(0).toString(), true));
-             BufferedWriter bufferedWriter2 = new BufferedWriter(new FileWriter(testReadingPaths.get(1).toString(), true));
-             BufferedWriter bufferedWriter3 = new BufferedWriter(new FileWriter(testReadingPaths.get(2).toString(), true))) {
-
-            for (int i = 0; i < testInputStrings.length; i++) {
+        for (int i = 0; i < testReadingPaths.size(); i++) {
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testReadingPaths.get(i).toString(), true))) {
                 for (int j = 0; j < testInputStrings[i].length; j++) {
-                    switch (i) {
-                        case 0 -> bufferedWriter1.write(testInputStrings[i][j]);
-                        case 1 -> bufferedWriter2.write(testInputStrings[i][j]);
-                        case 2 -> bufferedWriter3.write(testInputStrings[i][j]);
-                    }
+                    bufferedWriter.write(testInputStrings[i][j]);
                 }
             }
         }
 
-        testWritingPaths = new Path[]{Path.of("src/test/resources/testFiles/floats.txt"),
-                Path.of("src/test/resources/testFiles/integers.txt"), Path.of("src/test/resources/testFiles/strings.txt")};
+        testWritingPaths = new Path[]{
+                Path.of("src/test/resources/testFiles/floats.txt"),
+                Path.of("src/test/resources/testFiles/integers.txt"),
+                Path.of("src/test/resources/testFiles/strings.txt")
+        };
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testWritingPaths[1].toString(), true))) {
             bufferedWriter.write("123456789\n");
@@ -69,8 +62,9 @@ public class ReadingWritingServiceTest {
     @Test
     @Order(1)
     public void testReadWriteToFilesWithRewriteBehaviorAndWithEmptyOutputFiles() throws IOException {
+        readingWritingService = new ReadingWritingService();
         List<Path> readingPaths = testReadingPaths.subList(2, 3);
-        READING_WRITING_SERVICE.readWriteToFiles(readingPaths, testWritingPaths, false,
+        readingWritingService.readWriteToFiles(readingPaths, testWritingPaths, false,
                 false, false);
 
         String expectedFloatsOutput = """
@@ -85,12 +79,12 @@ public class ReadingWritingServiceTest {
                 -1234
                 """;
 
-        String actualFloatsOutput = readFromFile(testWritingPaths[0]);
-        String actualIntegersOutput = readFromFile(testWritingPaths[1]);
+        String actualFloatsOutput = readFromFile(testWritingPaths[TypeOfLine.FLOAT.getPathIndex()]);
+        String actualIntegersOutput = readFromFile(testWritingPaths[TypeOfLine.INTEGER.getPathIndex()]);
 
-        assertTrue(Files.exists(testWritingPaths[0]));
-        assertTrue(Files.exists(testWritingPaths[1]));
-        assertTrue(Files.notExists(testWritingPaths[2]));
+        assertTrue(Files.exists(testWritingPaths[TypeOfLine.FLOAT.getPathIndex()]));
+        assertTrue(Files.exists(testWritingPaths[TypeOfLine.INTEGER.getPathIndex()]));
+        assertTrue(Files.notExists(testWritingPaths[TypeOfLine.STRING.getPathIndex()]));
 
         assertEquals(expectedFloatsOutput, actualFloatsOutput);
         assertEquals(expectedIntegersOutput, actualIntegersOutput);
@@ -99,8 +93,9 @@ public class ReadingWritingServiceTest {
     @Test
     @Order(2)
     public void testReadWriteToFilesWithAddingBehaviorAndWithoutEmptyOutputFiles() throws IOException {
+        readingWritingService = new ReadingWritingService();
         List<Path> readingPaths = testReadingPaths.subList(0, 2);
-        READING_WRITING_SERVICE.readWriteToFiles(readingPaths, testWritingPaths, true,
+        readingWritingService.readWriteToFiles(readingPaths, testWritingPaths, true,
                 false, false);
 
         String expectedFloatsOutput = """
@@ -124,13 +119,13 @@ public class ReadingWritingServiceTest {
                 Long
                 """;
 
-        String actualFloatsOutput = readFromFile(testWritingPaths[0]);
-        String actualIntegersOutput = readFromFile(testWritingPaths[1]);
-        String actualStringsOutput = readFromFile(testWritingPaths[2]);
+        String actualFloatsOutput = readFromFile(testWritingPaths[TypeOfLine.FLOAT.getPathIndex()]);
+        String actualIntegersOutput = readFromFile(testWritingPaths[TypeOfLine.INTEGER.getPathIndex()]);
+        String actualStringsOutput = readFromFile(testWritingPaths[TypeOfLine.STRING.getPathIndex()]);
 
-        assertTrue(Files.exists(testWritingPaths[0]));
-        assertTrue(Files.exists(testWritingPaths[1]));
-        assertTrue(Files.exists(testWritingPaths[2]));
+        assertTrue(Files.exists(testWritingPaths[TypeOfLine.FLOAT.getPathIndex()]));
+        assertTrue(Files.exists(testWritingPaths[TypeOfLine.INTEGER.getPathIndex()]));
+        assertTrue(Files.exists(testWritingPaths[TypeOfLine.STRING.getPathIndex()]));
 
         assertEquals(expectedFloatsOutput, actualFloatsOutput);
         assertEquals(expectedIntegersOutput, actualIntegersOutput);
