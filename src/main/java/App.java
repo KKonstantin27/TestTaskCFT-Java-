@@ -3,7 +3,6 @@ import lombok.Setter;
 import services.ReadingWritingService;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -30,8 +29,7 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            Path pathToJar = Paths.get(App.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            Path jarParentDir = pathToJar.getParent();
+            Path jarPath = Paths.get("").toAbsolutePath();
 
             readingPaths = new ArrayList<>();
             writingFileNames = new String[]{"floats.txt", "integers.txt", "strings.txt"};
@@ -40,7 +38,7 @@ public class App {
             isThereStatistic = false;
             isFullStatistic = false;
 
-            Arrays.fill(writingPaths, jarParentDir);
+            Arrays.fill(writingPaths, jarPath);
 
             if (args.length == 0) {
                 throw new IllegalArgumentException();
@@ -50,7 +48,7 @@ public class App {
                 int nextIndex = i + 1;
                 switch (args[i]) {
                     case "-o":
-                        Arrays.fill(writingPaths, jarParentDir.resolve(Paths.get(args[nextIndex])));
+                        Arrays.fill(writingPaths, jarPath.resolve(Paths.get(args[nextIndex])));
                         i++;
                         break;
                     case "-p":
@@ -71,19 +69,18 @@ public class App {
                         break;
                     default:
                         if (args[i].endsWith(".txt")) {
-                            readingPaths.add(jarParentDir.resolve(args[i]));
+                            readingPaths.add(jarPath.resolve(args[i]));
                         } else {
                             throw new IllegalArgumentException();
                         }
                 }
             }
-
             for (int i = 0; i < writingPaths.length; i++) {
                 writingPaths[i] = writingPaths[i].resolve(writingFileNames[i]);
             }
             readingWritingService.readWriteToFiles(readingPaths, writingPaths, isRewritingBehavior, isThereStatistic, isFullStatistic);
-        } catch (URISyntaxException | IOException | IllegalArgumentException e) {
-            exceptionsHandler.handleURISyntaxIOInvalidPathExceptions();
+        } catch (IOException | IllegalArgumentException e) {
+            exceptionsHandler.handleIOInvalidPathExceptions();
         }
     }
 }
