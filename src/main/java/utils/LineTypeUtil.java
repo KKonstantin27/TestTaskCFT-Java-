@@ -1,7 +1,19 @@
 package utils;
 
+import enums.TypeOfLine;
+
 public class LineTypeUtil {
-    public boolean isFloat(String line) {
+    public TypeOfLine defineTypeOfLine(String line) {
+        if (isFloat(line)) {
+            return TypeOfLine.FLOAT;
+        } else if (isInteger(line)) {
+            return TypeOfLine.INTEGER;
+        } else {
+            return TypeOfLine.STRING;
+        }
+    }
+
+    private boolean isFloat(String line) {
         try {
             if (line.contains(".")) {
                 Double.parseDouble(line);
@@ -14,7 +26,7 @@ public class LineTypeUtil {
         }
     }
 
-    public boolean isInteger(String line) {
+    private boolean isInteger(String line) {
         try {
             Long.parseLong(line);
             return true;
