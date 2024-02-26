@@ -1,10 +1,10 @@
 package entitiesTests;
 
+import entities.IntegersStatistic;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import entities.IntegersStatistic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,35 +12,35 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IntegersStatisticsTest {
-    private static final IntegersStatistic INTEGERS_STATISTICS = new IntegersStatistic();
-    private static final IntegersStatistic INTEGERS_FULL_STATISTICS = new IntegersStatistic();
+public class IntegersStatisticTest {
+    private static final IntegersStatistic INTEGERS_STATISTIC = new IntegersStatistic();
+    private static final IntegersStatistic INTEGERS_FULL_STATISTIC = new IntegersStatistic();
 
     @BeforeAll
     public static void sendTestDataToCalculateStatistics() {
         String[] testData = {"0", "1234567890123456789", "-1234567890", "-12345", "1234567"};
-        Arrays.stream(testData).forEach(x -> INTEGERS_STATISTICS.calculateStatistics(x, false));
-        Arrays.stream(testData).forEach(x -> INTEGERS_FULL_STATISTICS.calculateStatistics(x, true));
+        Arrays.stream(testData).forEach(x -> INTEGERS_STATISTIC.calculateStatistics(x, false));
+        Arrays.stream(testData).forEach(x -> INTEGERS_FULL_STATISTIC.calculateStatistics(x, true));
     }
 
     @Test
     @Order(1)
     public void calculateStatisticsShouldCalculateOnlyNumberOfLinesField() {
-        assertEquals(5, INTEGERS_STATISTICS.getNumberOfLines());
-        assertEquals(Long.MAX_VALUE, INTEGERS_STATISTICS.getMin());
-        assertEquals(Long.MIN_VALUE, INTEGERS_STATISTICS.getMax());
-        assertEquals(0.0, INTEGERS_STATISTICS.getAvg());
-        assertEquals(0, INTEGERS_STATISTICS.getSum());
+        assertEquals(5, INTEGERS_STATISTIC.getNumberOfLines());
+        assertEquals(Long.MAX_VALUE, INTEGERS_STATISTIC.getMin());
+        assertEquals(Long.MIN_VALUE, INTEGERS_STATISTIC.getMax());
+        assertEquals(0.0, INTEGERS_STATISTIC.getAvg());
+        assertEquals(0, INTEGERS_STATISTIC.getSum());
     }
 
     @Test
     @Order(2)
     public void calculateStatisticsShouldCalculateAllFields() {
-        assertEquals(5, INTEGERS_FULL_STATISTICS.getNumberOfLines());
-        assertEquals(-1234567890, INTEGERS_FULL_STATISTICS.getMin());
-        assertEquals(1234567890123456789L, INTEGERS_FULL_STATISTICS.getMax());
-        assertEquals(2.4691357777802224E17, INTEGERS_FULL_STATISTICS.getAvg());
-        assertEquals(1234567888890111121L, INTEGERS_FULL_STATISTICS.getSum());
+        assertEquals(5, INTEGERS_FULL_STATISTIC.getNumberOfLines());
+        assertEquals(-1234567890, INTEGERS_FULL_STATISTIC.getMin());
+        assertEquals(1234567890123456789L, INTEGERS_FULL_STATISTIC.getMax());
+        assertEquals(2.4691357777802224E17, INTEGERS_FULL_STATISTIC.getAvg());
+        assertEquals(1234567888890111121L, INTEGERS_FULL_STATISTIC.getSum());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class IntegersStatisticsTest {
         ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(consoleOutput));
         String expectedOutput = "Количество целых чисел: 5\r\n";
-        INTEGERS_STATISTICS.printStatistics(false);
+        INTEGERS_STATISTIC.printStatistics(false);
         assertEquals(expectedOutput, consoleOutput.toString());
     }
 
@@ -66,7 +66,7 @@ public class IntegersStatisticsTest {
                 Сумма целых чисел: 1234567888890111121\r
                 --------------------------------------------------\r
                 """;
-        INTEGERS_FULL_STATISTICS.printStatistics(true);
+        INTEGERS_FULL_STATISTIC.printStatistics(true);
         assertEquals(expectedOutput, consoleOutput.toString().replaceAll("\u00a0", ""));
     }
 

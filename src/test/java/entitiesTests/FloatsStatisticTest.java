@@ -1,10 +1,10 @@
 package entitiesTests;
 
+import entities.FloatsStatistic;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import entities.FloatsStatistic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,35 +12,35 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FloatsStatisticsTest {
-    private static final FloatsStatistic FLOATS_STATISTICS = new FloatsStatistic();
-    private static final FloatsStatistic FLOATS_FULL_STATISTICS = new FloatsStatistic();
+public class FloatsStatisticTest {
+    private static final FloatsStatistic FLOATS_STATISTIC = new FloatsStatistic();
+    private static final FloatsStatistic FLOATS_FULL_STATISTIC = new FloatsStatistic();
 
     @BeforeAll
     public static void sendTestDataToCalculateStatistics() {
         String[] testData = {"0.0", "1.528535047E-25", "-12.3456789", "-1234.56789", "-1.23456789"};
-        Arrays.stream(testData).forEach(x -> FLOATS_STATISTICS.calculateStatistics(x, false));
-        Arrays.stream(testData).forEach(x -> FLOATS_FULL_STATISTICS.calculateStatistics(x, true));
+        Arrays.stream(testData).forEach(x -> FLOATS_STATISTIC.calculateStatistics(x, false));
+        Arrays.stream(testData).forEach(x -> FLOATS_FULL_STATISTIC.calculateStatistics(x, true));
     }
 
     @Test
     @Order(1)
     public void calculateStatisticsShouldCalculateOnlyNumberOfLinesField() {
-        assertEquals(5, FLOATS_STATISTICS.getNumberOfLines());
-        assertEquals(Double.MAX_VALUE, FLOATS_STATISTICS.getMin());
-        assertEquals(Double.MIN_VALUE, FLOATS_STATISTICS.getMax());
-        assertEquals(0.0, FLOATS_STATISTICS.getAvg());
-        assertEquals(0.0, FLOATS_STATISTICS.getSum());
+        assertEquals(5, FLOATS_STATISTIC.getNumberOfLines());
+        assertEquals(Double.MAX_VALUE, FLOATS_STATISTIC.getMin());
+        assertEquals(Double.MIN_VALUE, FLOATS_STATISTIC.getMax());
+        assertEquals(0.0, FLOATS_STATISTIC.getAvg());
+        assertEquals(0.0, FLOATS_STATISTIC.getSum());
     }
 
     @Test
     @Order(2)
     public void calculateStatisticsShouldCalculateAllFields() {
-        assertEquals(5, FLOATS_FULL_STATISTICS.getNumberOfLines());
-        assertEquals(-1234.56789, FLOATS_FULL_STATISTICS.getMin());
-        assertEquals(1.528535047E-25, FLOATS_FULL_STATISTICS.getMax());
-        assertEquals(-249.62962735800002, FLOATS_FULL_STATISTICS.getAvg());
-        assertEquals(-1248.14813679, FLOATS_FULL_STATISTICS.getSum());
+        assertEquals(5, FLOATS_FULL_STATISTIC.getNumberOfLines());
+        assertEquals(-1234.56789, FLOATS_FULL_STATISTIC.getMin());
+        assertEquals(1.528535047E-25, FLOATS_FULL_STATISTIC.getMax());
+        assertEquals(-249.62962735800002, FLOATS_FULL_STATISTIC.getAvg());
+        assertEquals(-1248.14813679, FLOATS_FULL_STATISTIC.getSum());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class FloatsStatisticsTest {
         ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(consoleOutput));
         String expectedOutput = "Количество вещественных чисел: 5\r\n";
-        FLOATS_STATISTICS.printStatistics(false);
+        FLOATS_STATISTIC.printStatistics(false);
         assertEquals(expectedOutput, consoleOutput.toString());
     }
 
@@ -66,7 +66,7 @@ public class FloatsStatisticsTest {
                 Сумма вещественных чисел: -1248,14813679\r
                 --------------------------------------------------\r
                 """;
-        FLOATS_FULL_STATISTICS.printStatistics(true);
+        FLOATS_FULL_STATISTIC.printStatistics(true);
         assertEquals(expectedOutput, consoleOutput.toString().replaceAll("\u00a0", ""));
     }
 
