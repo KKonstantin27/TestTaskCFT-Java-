@@ -127,7 +127,7 @@ public class ArgumentsHandlingInTheAppTest {
                 "non-existent-file.txt" + random.nextInt(100000)};
         App.main(args);
 
-        verify(EXCEPTIONS_HANDLER_MOCK).handleIOInvalidPathExceptions();
+        verify(EXCEPTIONS_HANDLER_MOCK).handleIOIllegalArgumentExceptions();
     }
 
     @Test
@@ -137,7 +137,7 @@ public class ArgumentsHandlingInTheAppTest {
         App.setExceptionsHandler(EXCEPTIONS_HANDLER_MOCK);
         String[] args = {"-x", "in1", "in1.txt"};
         App.main(args);
-        verify(EXCEPTIONS_HANDLER_MOCK).handleIOInvalidPathExceptions();
+        verify(EXCEPTIONS_HANDLER_MOCK).handleIOIllegalArgumentExceptions();
     }
 
     @Test
@@ -147,7 +147,7 @@ public class ArgumentsHandlingInTheAppTest {
         App.setExceptionsHandler(EXCEPTIONS_HANDLER_MOCK);
         String[] args = {};
         App.main(args);
-        verify(EXCEPTIONS_HANDLER_MOCK).handleIOInvalidPathExceptions();
+        verify(EXCEPTIONS_HANDLER_MOCK).handleIOIllegalArgumentExceptions();
     }
 
     private static void buildExpectedWritingPaths() {

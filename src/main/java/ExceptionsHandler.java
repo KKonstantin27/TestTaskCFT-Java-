@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class ExceptionsHandler {
     private final Scanner console = new Scanner(System.in);
 
-    public void handleIOInvalidPathExceptions() {
+    public void handleIOIllegalArgumentExceptions() {
         System.out.println(
                 """
                         Введены неверные аргументы для работы программы.\s
