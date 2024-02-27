@@ -4,6 +4,7 @@ import lombok.Setter;
 import services.ReadingWritingService;
 
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -49,6 +50,9 @@ public class App {
                 int nextIndex = i + 1;
                 switch (args[i]) {
                     case "-o":
+                        if (args[nextIndex].startsWith("/") || args[nextIndex].startsWith("\\")) {
+                            throw new IllegalArgumentException();
+                        }
                         Arrays.fill(writingPaths, jarPath.resolve(Paths.get(args[nextIndex])));
                         i++;
                         break;
@@ -81,7 +85,7 @@ public class App {
             }
             readingWritingService.readWriteToFiles(readingPaths, writingPaths, isRewritingBehavior, isThereStatistic, isFullStatistic);
         } catch (IOException | IllegalArgumentException e) {
-            exceptionsHandler.handleIOInvalidPathExceptions();
+            exceptionsHandler.handleIOIllegalArgumentExceptions();
         }
     }
 }
