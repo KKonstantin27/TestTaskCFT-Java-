@@ -4,7 +4,7 @@
 <ol>
 <li>С помощью терминала, в папке с проектом выполнить команду: mvn clean package </li>
 <li>Перейти в папку target с помощью команды: cd target</li>
-<li>В папку с jar файлом (target) необходимо поместить входной/входные файлы в формате txt. Файлы можно скопировать из папки \src\main\resources командой: cp src/main/resources/*.txt target</li>
+<li>В папку с jar файлом (target) необходимо поместить входной/входные файлы в формате txt. Файлы можно скопировать из папки /src/main/resources командой: cp src/main/resources/*.txt target</li>
 <li>Запустить jar файл с помощью команды: java -jar TestTaskCFT-1.0.jar (необходимо указать обязательные аргументы командной строки. Описание возможных аргументов приведено ниже)</li>
 <li>(Опционально) Для отдельного запуска тестов, в папке с проектом можно выполнить команду: mvn clean test</li>
 </ol>
@@ -14,7 +14,7 @@
 <li>Java 17 Amazon Corretto 17.0.8</li>
 <li>Maven 3.9.4</li>
 <li>Lombok 1.18.30</li>
-<li>JUnit5 5.10.2</li>
+<li>JUnit 5.10.2</li>
 <li>Mockito 5.10.0</li>
 </ul>
 
