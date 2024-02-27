@@ -28,7 +28,7 @@ public class StatisticsServiceTest {
     }
 
     @BeforeEach
-    public void clearInvocationsInMockObjects() {
+    public void clearInvocationsInMockedObjects() {
         clearInvocations(FLOATS_STATISTIC_MOCK, INTEGERS_STATISTIC_MOCK, STRINGS_STATISTIC_MOCK);
     }
 
