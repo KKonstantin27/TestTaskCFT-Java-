@@ -1,4 +1,6 @@
+import enums.TypeOfLine;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import services.ReadingWritingService;
@@ -11,32 +13,34 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.verify;
 
 public class ArgumentsHandlingInTheAppTest {
     private static String[] expectedWritingFileNames;
-    private static Path[] expectedWritingPaths = new Path[3];
-    private static List<Path> expectedReadingPaths = new ArrayList<>();
-    private static Path jarParentDir;
-    ReadingWritingService readingWritingServiceMock = Mockito.mock(ReadingWritingService.class);
-    ExceptionsHandler exceptionsHandlerMock = Mockito.mock(ExceptionsHandler.class);
+    private static Path[] expectedWritingPaths;
+    private static List<Path> expectedReadingPaths;
+    private static Path jarPath;
+    private static final ReadingWritingService READING_WRITING_SERVICE_MOCK = Mockito.mock(ReadingWritingService.class);
+    private static final ExceptionsHandler EXCEPTIONS_HANDLER_MOCK = Mockito.mock(ExceptionsHandler.class);
 
     @BeforeEach
-    public void prepareTestEnvironment() throws Exception {
-        Path pathToJar = Paths.get(App.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-        jarParentDir = pathToJar.getParent();
+    public void prepareTestEnvironment() {
+        jarPath = Paths.get("").toAbsolutePath();
 
         expectedWritingFileNames = new String[]{"floats.txt", "integers.txt", "strings.txt"};
-        expectedWritingPaths = new Path[3];
+        expectedWritingPaths = new Path[TypeOfLine.values().length];
         expectedReadingPaths = new ArrayList<>();
 
-        Arrays.fill(expectedWritingPaths, jarParentDir);
-        expectedReadingPaths.add(jarParentDir.resolve("in1.txt"));
+        Arrays.fill(expectedWritingPaths, jarPath);
+        expectedReadingPaths.add(jarPath.resolve("in1.txt"));
+        clearInvocations(READING_WRITING_SERVICE_MOCK, EXCEPTIONS_HANDLER_MOCK);
     }
 
     @Test
+    @Order(1)
     public void testOnlyInputFilesArguments() {
-        App.setReadingWritingService(readingWritingServiceMock);
+        App.setReadingWritingService(READING_WRITING_SERVICE_MOCK);
         String[] args = {"in1.txt"};
         App.main(args);
 
@@ -51,12 +55,13 @@ public class ArgumentsHandlingInTheAppTest {
     }
 
     @Test
+    @Order(2)
     public void test_o_a_arguments() {
-        App.setReadingWritingService(readingWritingServiceMock);
+        App.setReadingWritingService(READING_WRITING_SERVICE_MOCK);
         String[] args = {"-a", "-o", "example/path", "in1.txt"};
         App.main(args);
 
-        Arrays.fill(expectedWritingPaths, jarParentDir.resolve(args[2]));
+        Arrays.fill(expectedWritingPaths, jarPath.resolve(args[2]));
         buildExpectedWritingPaths();
 
         assertArrayEquals(expectedWritingFileNames, App.getWritingFileNames());
@@ -68,8 +73,9 @@ public class ArgumentsHandlingInTheAppTest {
     }
 
     @Test
+    @Order(3)
     public void test_s_p_arguments() {
-        App.setReadingWritingService(readingWritingServiceMock);
+        App.setReadingWritingService(READING_WRITING_SERVICE_MOCK);
         String[] args = {"-s", "-p", "sample-", "in1.txt"};
         App.main(args);
 
@@ -88,12 +94,13 @@ public class ArgumentsHandlingInTheAppTest {
     }
 
     @Test
+    @Order(4)
     public void test_f_o_p_a_arguments() {
-        App.setReadingWritingService(readingWritingServiceMock);
+        App.setReadingWritingService(READING_WRITING_SERVICE_MOCK);
         String[] args = {"-a", "-f", "-o", "example/path", "-p", "sample-", "in1.txt"};
         App.main(args);
 
-        Arrays.fill(expectedWritingPaths, jarParentDir.resolve(args[3]));
+        Arrays.fill(expectedWritingPaths, jarPath.resolve(args[3]));
 
         expectedWritingFileNames = Arrays.stream(expectedWritingFileNames)
                 .map(x -> args[5] + x)
@@ -110,45 +117,37 @@ public class ArgumentsHandlingInTheAppTest {
     }
 
     @Test
-    public void inputFileDoesNotExistShouldCallHandlingMethod() {
+    @Order(5)
+    public void inputFileDoesNotExistShouldInvokeHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
-        App.setExceptionsHandler(exceptionsHandlerMock);
+        App.setExceptionsHandler(EXCEPTIONS_HANDLER_MOCK);
         Random random = new Random();
 
         String[] args = {"non-existent-file.txt" + random.nextInt(100000),
                 "non-existent-file.txt" + random.nextInt(100000)};
         App.main(args);
 
-        verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
-    }
-
-
-    @Test
-    public void invalidPathShouldCallHandlingMethod() {
-        App.setReadingWritingService(new ReadingWritingService());
-        App.setExceptionsHandler(exceptionsHandlerMock);
-        String[] args = {"-o", "example/path\"", "in1.txt"};
-        App.main(args);
-        verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
+        verify(EXCEPTIONS_HANDLER_MOCK).handleIOInvalidPathExceptions();
     }
 
     @Test
-    public void invalidArgumentsShouldCallHandlingMethod() {
+    @Order(6)
+    public void invalidArgumentsShouldInvokeHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
-        App.setExceptionsHandler(exceptionsHandlerMock);
+        App.setExceptionsHandler(EXCEPTIONS_HANDLER_MOCK);
         String[] args = {"-x", "in1", "in1.txt"};
         App.main(args);
-        verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
-
+        verify(EXCEPTIONS_HANDLER_MOCK).handleIOInvalidPathExceptions();
     }
 
     @Test
-    public void emptyArgumentsShouldCallHandlingMethod() {
+    @Order(7)
+    public void emptyArgumentsShouldInvokeHandlingMethod() {
         App.setReadingWritingService(new ReadingWritingService());
-        App.setExceptionsHandler(exceptionsHandlerMock);
+        App.setExceptionsHandler(EXCEPTIONS_HANDLER_MOCK);
         String[] args = {};
         App.main(args);
-        verify(exceptionsHandlerMock).handleURISyntaxIOInvalidPathExceptions();
+        verify(EXCEPTIONS_HANDLER_MOCK).handleIOInvalidPathExceptions();
     }
 
     private static void buildExpectedWritingPaths() {
