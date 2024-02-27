@@ -1,3 +1,4 @@
+import enums.TypeOfLine;
 import lombok.Getter;
 import lombok.Setter;
 import services.ReadingWritingService;
@@ -33,7 +34,7 @@ public class App {
 
             readingPaths = new ArrayList<>();
             writingFileNames = new String[]{"floats.txt", "integers.txt", "strings.txt"};
-            writingPaths = new Path[3];
+            writingPaths = new Path[TypeOfLine.values().length];
             isRewritingBehavior = true;
             isThereStatistic = false;
             isFullStatistic = false;
