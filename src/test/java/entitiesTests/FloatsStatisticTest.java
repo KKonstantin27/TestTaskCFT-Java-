@@ -28,7 +28,7 @@ public class FloatsStatisticTest {
     public void calculateStatisticsShouldCalculateOnlyNumberOfLinesField() {
         assertEquals(5, FLOATS_STATISTIC.getNumberOfLines());
         assertEquals(Double.MAX_VALUE, FLOATS_STATISTIC.getMin());
-        assertEquals(Double.MIN_VALUE, FLOATS_STATISTIC.getMax());
+        assertEquals(Double.NEGATIVE_INFINITY, FLOATS_STATISTIC.getMax());
         assertEquals(0.0, FLOATS_STATISTIC.getAvg());
         assertEquals(0.0, FLOATS_STATISTIC.getSum());
     }

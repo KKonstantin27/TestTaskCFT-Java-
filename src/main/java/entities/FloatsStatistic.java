@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class FloatsStatistic extends BaseStatistic {
     private double min = Double.MAX_VALUE;
-    private double max = Double.MIN_VALUE;
+    private double max = Double.NEGATIVE_INFINITY;
     private double avg;
     private double sum;
 
